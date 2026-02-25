@@ -20,9 +20,9 @@
 1. Download [Logbook_Template_Overleaf.zip](Logbook_Template_Overleaf.zip)
 2. Go to [Overleaf.com](https://www.overleaf.com) and select `New Project` > `Upload Project`
 3. Upload `Logbook_Template_Overleaf.zip`
-4. Set compiler to **XeLaTeX** (`Menu` > `Compiler` > `XeLaTeX`) and click **Recompile**
+4. Click **Recompile** (works with Overleaf default compiler)
 
-This template uses `fontspec` with Calibri, so **XeLaTeX is required** for local and Overleaf compilation.
+For best visual match with the original Excel (Calibri), use **XeLaTeX** or **LuaLaTeX**.
 
 
 ## Preview
