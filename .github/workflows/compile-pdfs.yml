@@ -21,6 +21,7 @@ jobs:
         with:
           working_directory: examples
           root_file: logbook.tex
+          latexmk_use_xelatex: true
 
       - name: Upload compiled PDF
         uses: actions/upload-artifact@v4

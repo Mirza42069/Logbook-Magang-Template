@@ -1,40 +1,76 @@
 \documentclass[a4paper,10pt]{article}
 
+% ============================================================
+%  PACKAGES
+% ============================================================
 \usepackage[top=0.8cm, bottom=0.8cm, left=1.3cm, right=0.5cm]{geometry}
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
+\usepackage{fontspec}
 \usepackage{graphicx}
 \usepackage{array}
 \usepackage{longtable}
 \usepackage{colortbl}
 \usepackage{xcolor}
 \usepackage{ragged2e}
-\usepackage{helvet}
-\renewcommand{\familydefault}{\sfdefault}
 
+% ============================================================
+%  FONT SETUP  --  Calibri to match the original Excel template
+% ============================================================
+\setmainfont{Calibri}
+
+% ============================================================
+%  COLORS
+% ============================================================
 \definecolor{headerblack}{RGB}{51,51,51}
 
+% ============================================================
+%  SUPPRESS HYPHENATION  (Indonesian text)
+% ============================================================
 \hyphenpenalty=10000
 \exhyphenpenalty=10000
 
-\newcommand{\nama}{Alya Pratama}
-\newcommand{\periode}{Maret 2026}
-\newcommand{\divisi}{Digital Operations}
+% ============================================================
+%  CONFIGURABLE FIELDS  --  Edit these for each month/person
+% ============================================================
+\newcommand{\nama}{Nama Lengkap}
+\newcommand{\periode}{Bulan Tahun}
+\newcommand{\divisi}{Nama Divisi}
 
-\newcommand{\approvedName}{Rina Kusuma}
-\newcommand{\approvedTitle}{Knowledge Management Analyst}
-\newcommand{\acknowledgeName}{Budi Santosa}
-\newcommand{\acknowledgeTitle}{HR Planning Section Head}
+\newcommand{\approvedName}{Nama Pembimbing}
+\newcommand{\approvedTitle}{Jabatan Pembimbing}
+\newcommand{\acknowledgeName}{Nama PIC HR}
+\newcommand{\acknowledgeTitle}{Jabatan PIC HR}
 
+% ============================================================
+%  TABLE ENTRY COMMAND  (expandable)
+%  Usage: \entry{No}{Hari/Tanggal}{Agenda}
+%
+%  Column types:
+%    m = vertically centered  (No, Hari/Tanggal)
+%    p = top-aligned          (Agenda)
+%    b = bottom-aligned       (Tanda Tangan)
+% ============================================================
+\newcounter{signcount}
+\setcounter{signcount}{0}
 \newcommand{\entry}[3]{%
-  #1 & #2 & \RaggedRight #3 & #1..................
+  \stepcounter{signcount}%
+  #1 & #2 & \RaggedRight #3 &%
+  \ifodd\value{signcount}%
+    \arabic{signcount}.................. &%
+  \else
+    & \arabic{signcount}..................%
+  \fi
   \\ \hline
 }
 
+% ============================================================
 \pagestyle{empty}
+% ============================================================
 
 \begin{document}
 
+% ------------------------------------------------------------
+%  LOGO HEADER
+% ------------------------------------------------------------
 \begin{flushright}
 	\vspace*{-0.2cm}
 	\includegraphics[width=7.5cm]{logo_header.png}
@@ -42,12 +78,18 @@
 
 \vspace{0.1cm}
 
+% ------------------------------------------------------------
+%  TITLE
+% ------------------------------------------------------------
 \begin{center}
 	{\fontsize{14}{17}\selectfont \textbf{DAFTAR HADIR KERJA PRAKTEK / MAGANG}}
 \end{center}
 
 \vspace{0.1cm}
 
+% ------------------------------------------------------------
+%  INFO FIELDS
+% ------------------------------------------------------------
 {\fontsize{10.5}{13}\selectfont
 	\noindent
 	\begin{tabular}{@{}p{2cm}@{}l}
@@ -59,6 +101,17 @@
 
 \vspace{0.15cm}
 
+% ------------------------------------------------------------
+%  ATTENDANCE TABLE
+%
+%  Column proportions from Excel (cols A-G):
+%    No           = A+B  ~5%    (0.8cm)   m  centered H+V
+%    Hari/Tanggal = C    ~19%   (3.8cm)   m  centered H+V
+%    Agenda       = D+E  ~47%   (auto)    p  left, top
+%    Tanda Tangan = F+G  ~30%   split into two sub-columns (3.0cm + 3.0cm)
+% ------------------------------------------------------------
+\setcounter{signcount}{0}
+
 \renewcommand{\arraystretch}{1.05}
 \setlength{\tabcolsep}{3pt}
 \setlength{\LTleft}{0pt}
@@ -68,15 +121,16 @@
 	\begin{longtable}{%
 		|>{\centering\arraybackslash}m{0.8cm}%
 		|>{\centering\arraybackslash}m{3.8cm}%
-		|p{\dimexpr\textwidth-9.8cm\relax}%
-		|>{\raggedright\arraybackslash}m{3.0cm}|}
+		|p{\dimexpr\textwidth-12.8cm\relax}%
+		|>{\raggedright\arraybackslash}b{3.0cm}%
+		|>{\raggedright\arraybackslash}b{3.0cm}|}
 
 		\hline
 		\rowcolor{headerblack}
 		\textcolor{white}{\textbf{No}}               &
 		\textcolor{white}{\textbf{Hari/Tanggal}}     &
 		\centering\textcolor{white}{\textbf{Agenda}} &
-		\textcolor{white}{\textbf{Tanda Tangan}}       \\
+		\multicolumn{2}{c|}{\textcolor{white}{\textbf{Tanda Tangan}}} \\
 		\hline
 		\endfirsthead
 
@@ -85,7 +139,7 @@
 		\textcolor{white}{\textbf{No}}               &
 		\textcolor{white}{\textbf{Hari/Tanggal}}     &
 		\centering\textcolor{white}{\textbf{Agenda}} &
-		\textcolor{white}{\textbf{Tanda Tangan}}       \\
+		\multicolumn{2}{c|}{\textcolor{white}{\textbf{Tanda Tangan}}} \\
 		\hline
 		\endhead
 
@@ -94,25 +148,44 @@
 
 		\endlastfoot
 
-		\entry{1}{02/03/2026}
-		{- Mengikuti sesi perkenalan perusahaan PT Contoh Energi Nusantara dan mempelajari pedoman keamanan data internal.}
+		% --------------------------------------------------------
+		%  DATA ENTRIES
+		%  Format: \entry{No}{Day, Date}{Agenda text}
+		%  Add / remove rows freely -- table expands automatically.
+		% --------------------------------------------------------
 
-		\entry{2}{03/03/2026}
-		{- Menyelesaikan tugas klasifikasi informasi dokumen digital, tahap 1.}
+		\entry{1}{23/02/2026}
+		{- Mengikuti sesi perkenalan perusahaan JOB Pertamina E\&P Tomori Sulawesi dilanjutkan dengan menonton video profil perusahaan, serta mempelajari materi terkait data security (keamanan data) pada perusahaan yang dipaparkan.}
 
-		\entry{3}{04/03/2026}
-		{- Menyelesaikan tugas klasifikasi informasi dokumen digital, tahap 2.}
+		\entry{2}{24/02/2026}
+		{- Mengerjakan Tugas lengkapin Klasifikasi informasi dokumen digi-sign part 1.}
 
-		\entry{4}{05/03/2026}
-		{- Membantu validasi metadata dokumen untuk proses arsip elektronik.}
+		\entry{3}{25/02/2026}
+		{- Mengerjakan Tugas lengkapin Klasifikasi informasi dokumen digi-sign part 2.}
 
-		\entry{5}{06/03/2026}
-		{- Menyusun ringkasan hasil pekerjaan mingguan untuk supervisor.}
+		\entry{4}{26/02/2026}
+		{}
+
+		\entry{5}{27/02/2026}
+		{}
+
+		% --------------------------------------------------------
+		%  TO ADD MORE ROWS:
+		%
+		%  \entry{13}{Senin, 2 Februari 2026}
+		%  {- Deskripsi kegiatan hari ini}
+		%
+		%  The table automatically expands and paginates.
+		% --------------------------------------------------------
 	\end{longtable}
 }
 
 \vfill
 
+% ------------------------------------------------------------
+%  SIGNATURE BLOCK
+%  Original Excel: labels=italic, names=bold, titles=italic
+% ------------------------------------------------------------
 {\fontsize{10.5}{13}\selectfont
 	\noindent
 	\begin{tabular}{@{}p{0.8cm}@{}p{\dimexpr\textwidth-6.75cm\relax}@{}p{5.95cm}@{}}

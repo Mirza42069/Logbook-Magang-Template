@@ -1,6 +1,6 @@
 .PHONY: all clean
 
-CC = pdflatex
+CC = xelatex
 DIR = examples
 
 all: $(DIR)/logbook.pdf
