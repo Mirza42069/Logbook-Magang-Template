@@ -26,16 +26,8 @@
 \newcommand{\acknowledgeName}{Budi Santosa}
 \newcommand{\acknowledgeTitle}{HR Planning Section Head}
 
-\newcounter{signcount}
-\setcounter{signcount}{0}
 \newcommand{\entry}[3]{%
-  \stepcounter{signcount}%
-  #1 & #2 & \RaggedRight #3 &%
-  \ifodd\value{signcount}%
-    \arabic{signcount}.................. &%
-  \else
-    & \arabic{signcount}..................%
-  \fi
+  #1 & #2 & \RaggedRight #3 & #1..................
   \\ \hline
 }
 
@@ -67,8 +59,6 @@
 
 \vspace{0.15cm}
 
-\setcounter{signcount}{0}
-
 \renewcommand{\arraystretch}{1.05}
 \setlength{\tabcolsep}{3pt}
 \setlength{\LTleft}{0pt}
@@ -78,16 +68,15 @@
 	\begin{longtable}{%
 		|>{\centering\arraybackslash}m{0.8cm}%
 		|>{\centering\arraybackslash}m{3.8cm}%
-		|p{\dimexpr\textwidth-12.8cm\relax}%
-		|>{\raggedright\arraybackslash}b{3.0cm}%
-		|>{\raggedright\arraybackslash}b{3.0cm}|}
+		|p{\dimexpr\textwidth-9.8cm\relax}%
+		|>{\raggedright\arraybackslash}m{3.0cm}|}
 
 		\hline
 		\rowcolor{headerblack}
 		\textcolor{white}{\textbf{No}}               &
 		\textcolor{white}{\textbf{Hari/Tanggal}}     &
 		\centering\textcolor{white}{\textbf{Agenda}} &
-		\multicolumn{2}{c|}{\textcolor{white}{\textbf{Tanda Tangan}}} \\
+		\textcolor{white}{\textbf{Tanda Tangan}}       \\
 		\hline
 		\endfirsthead
 
@@ -96,7 +85,7 @@
 		\textcolor{white}{\textbf{No}}               &
 		\textcolor{white}{\textbf{Hari/Tanggal}}     &
 		\centering\textcolor{white}{\textbf{Agenda}} &
-		\multicolumn{2}{c|}{\textcolor{white}{\textbf{Tanda Tangan}}} \\
+		\textcolor{white}{\textbf{Tanda Tangan}}       \\
 		\hline
 		\endhead
 
