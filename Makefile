@@ -1,12 +1,21 @@
-.PHONY: all clean
+.PHONY: all local overleaf clean
 
 CC = xelatex
-DIR = examples
+OVERLEAF_DIR = overleaf
+LOCAL_DIR = logbook2
+LOCAL_FILE = logbook2
 
-all: $(DIR)/logbook.pdf
+all: local
 
-$(DIR)/logbook.pdf: $(DIR)/logbook.tex
-	cd $(DIR) && $(CC) logbook.tex && $(CC) logbook.tex
+local: $(LOCAL_DIR)/$(LOCAL_FILE).pdf
+
+$(LOCAL_DIR)/$(LOCAL_FILE).pdf: $(LOCAL_DIR)/$(LOCAL_FILE).tex
+	cd $(LOCAL_DIR) && $(CC) $(LOCAL_FILE).tex && $(CC) $(LOCAL_FILE).tex
+
+overleaf: $(OVERLEAF_DIR)/logbook.pdf
+
+$(OVERLEAF_DIR)/logbook.pdf: $(OVERLEAF_DIR)/logbook.tex
+	cd $(OVERLEAF_DIR) && $(CC) logbook.tex && $(CC) logbook.tex
 
 clean:
-	cd $(DIR) && rm -f *.aux *.log *.out *.toc *.fls *.fdb_latexmk *.synctex.gz *.bak*
+	rm -f *.aux *.log *.out *.toc *.fls *.fdb_latexmk *.synctex.gz *.bak* && cd $(LOCAL_DIR) && rm -f *.aux *.log *.out *.toc *.fls *.fdb_latexmk *.synctex.gz *.bak* && cd .. && cd $(OVERLEAF_DIR) && rm -f *.aux *.log *.out *.toc *.fls *.fdb_latexmk *.synctex.gz *.bak*

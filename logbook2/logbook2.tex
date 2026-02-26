@@ -4,7 +4,15 @@
 %  PACKAGES
 % ============================================================
 \usepackage[top=0.8cm, bottom=0.8cm, left=1.3cm, right=0.5cm]{geometry}
+\usepackage{iftex}
+\ifPDFTeX
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\else
 \usepackage{fontspec}
+\fi
 \usepackage{graphicx}
 \usepackage{array}
 \usepackage{longtable}
@@ -13,9 +21,29 @@
 \usepackage{ragged2e}
 
 % ============================================================
-%  FONT SETUP  --  Calibri to match the original Excel template
+%  FONT SETUP
+%  - XeLaTeX/LuaLaTeX: Calibri (fallback TeX Gyre Heros)
+%  - pdfLaTeX: Helvetica via helvet package
 % ============================================================
-\setmainfont{Calibri}
+\ifPDFTeX
+% helvet already configured above
+\else
+\IfFontExistsTF{Calibri}{\setmainfont{Calibri}}{\setmainfont{TeX Gyre Heros}}
+\fi
+
+% ============================================================
+%  IMAGE PATH FALLBACK
+%  - when compiled from logbook2/: ../overleaf/logo_header.png
+%  - when compiled from repo root: overleaf/logo_header.png
+% ============================================================
+\newcommand{\logoHeaderPath}{logo_header.png}
+\IfFileExists{logo_header.png}{}{
+  \IfFileExists{../overleaf/logo_header.png}{
+    \renewcommand{\logoHeaderPath}{../overleaf/logo_header.png}
+  }{
+    \renewcommand{\logoHeaderPath}{overleaf/logo_header.png}
+  }
+}
 
 % ============================================================
 %  COLORS
@@ -73,7 +101,7 @@
 % ------------------------------------------------------------
 \begin{flushright}
 	\vspace*{-0.2cm}
-	\includegraphics[width=7.5cm]{logo_header.png}
+	\includegraphics[width=7.5cm]{\logoHeaderPath}
 \end{flushright}
 
 \vspace{0.1cm}

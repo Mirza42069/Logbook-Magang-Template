@@ -19,7 +19,7 @@ jobs:
       - name: Compile logbook
         uses: xu-cheng/latex-action@v3
         with:
-          working_directory: examples
+          working_directory: overleaf
           root_file: logbook.tex
           latexmk_use_xelatex: true
 
@@ -27,4 +27,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: logbook-pdf
-          path: examples/logbook.pdf
+          path: overleaf/logbook.pdf

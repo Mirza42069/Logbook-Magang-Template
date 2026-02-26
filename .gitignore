@@ -46,3 +46,9 @@ Desktop.ini
 *.tmp
 *.bak[0-9]
 nul
+
+### Local agent notes ###
+AGENTS.md
+
+### Local compile output ###
+logbook2/logbook2.pdf
