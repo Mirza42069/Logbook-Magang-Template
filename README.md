@@ -33,16 +33,23 @@ You can see [PDF](overleaf/logbook.pdf)
 |:---:|
 | [![Logbook Preview](overleaf/logbook.png)](overleaf/logbook.pdf) |
 
-## Local Compile (`logbook2/logbook2.tex`)
+## Local Compile (`local/logbook2.tex`)
+
+For Windows local builds, use **MiKTeX** + **Strawberry Perl**.
+
+1. Install MiKTeX (TeX distribution)
+2. Install Strawberry Perl (required by `latexmk`)
+3. Open terminal in this repo and run:
 
 ```bash
-cd logbook2
-xelatex logbook2.tex
+cd local
+latexmk -xelatex -interaction=nonstopmode -halt-on-error logbook2.tex
 ```
 
-## Overleaf Template Compile (`overleaf/logbook.tex`)
+If `latexmk` is unavailable, use two XeLaTeX passes:
 
 ```bash
-cd overleaf
-pdflatex -interaction=nonstopmode -halt-on-error logbook.tex
+cd local
+xelatex logbook2.tex
+xelatex logbook2.tex
 ```

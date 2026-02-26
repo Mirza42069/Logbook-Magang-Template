@@ -2,7 +2,7 @@
 
 CC = xelatex
 OVERLEAF_DIR = overleaf
-LOCAL_DIR = logbook2
+LOCAL_DIR = local
 LOCAL_FILE = logbook2
 
 all: local

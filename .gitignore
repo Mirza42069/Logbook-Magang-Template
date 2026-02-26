@@ -26,6 +26,7 @@
 
 ### Intermediate documents ###
 *.dvi
+*.xdv
 *-converted-to.*
 
 ### Editor ###
@@ -51,4 +52,4 @@ nul
 AGENTS.md
 
 ### Local compile output ###
-logbook2/logbook2.pdf
+local/logbook2.pdf
