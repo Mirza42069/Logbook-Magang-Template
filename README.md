@@ -39,17 +39,3 @@ For Windows local builds, use **MiKTeX** + **Strawberry Perl**.
 
 1. Install MiKTeX (TeX distribution)
 2. Install Strawberry Perl (required by `latexmk`)
-3. Open terminal in this repo and run:
-
-```bash
-cd local
-latexmk -xelatex -interaction=nonstopmode -halt-on-error logbook2.tex
-```
-
-If `latexmk` is unavailable, use two XeLaTeX passes:
-
-```bash
-cd local
-xelatex logbook2.tex
-xelatex logbook2.tex
-```
