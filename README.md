@@ -24,11 +24,6 @@
 
 For best visual match with the original Excel (Calibri), use **XeLaTeX** or **LuaLaTeX**.
 
-## Canonical Source
-
-Edit [overleaf/logbook.tex](overleaf/logbook.tex). This is the only maintained template source.
-
 ## Preview
 
 You can see the sample [PDF](overleaf/logbook.pdf).
-
