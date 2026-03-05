@@ -32,9 +32,22 @@
 \fi
 
 % ============================================================
-%  COLORS
+%  COLORS / TABLE COLUMN TYPES
+%  - L: left align + vertical middle
+%  - C: center align + vertical middle
+%  - R: right align + vertical middle
 % ============================================================
 \definecolor{headerblack}{RGB}{51,51,51}
+\newcolumntype{L}[1]{>{\RaggedRight\arraybackslash}m{#1}}
+\newcolumntype{C}[1]{>{\Centering\arraybackslash}m{#1}}
+\newcolumntype{R}[1]{>{\RaggedLeft\arraybackslash}m{#1}}
+\newlength{\colNoWidth}
+\newlength{\colDateWidth}
+\newlength{\colSignWidth}
+\newlength{\colAgendaWidth}
+\setlength{\colNoWidth}{0.8cm}
+\setlength{\colDateWidth}{3.8cm}
+\setlength{\colSignWidth}{4.8cm}
 
 % ============================================================
 %  SUPPRESS HYPHENATION  (Indonesian text)
@@ -55,36 +68,25 @@
 \newcommand{\acknowledgeTitle}{Jabatan PIC HR}
 
 % ============================================================
-%  TABLE ROW HELPERS  (easy to edit / easy to expand)
+%  TABLE ROW HELPERS
 %
 %  Use only \logentry{Hari/Tanggal}{Agenda} and \blankentry{Hari/Tanggal}
-%  inside \logbookrows. Row number and signature slot are auto-generated.
-%
-%  Column types:
-%    m = vertically centered  (No, Hari/Tanggal)
-%    p = top-aligned          (Agenda)
-%    b = bottom-aligned       (Tanda Tangan)
+%  inside \logbookrows. Row number is auto-generated.
 % ============================================================
 \newcounter{logrow}
 \newcommand{\resetlogrows}{\setcounter{logrow}{0}}
 
 \newcommand{\logentry}[2]{%
   \stepcounter{logrow}%
-  \arabic{logrow} & #1 & \RaggedRight #2 &%
-  \ifodd\value{logrow}%
-    \arabic{logrow}.................. &%
-  \else
-    & \arabic{logrow}..................%
-  \fi
-  \\ \hline
+  \arabic{logrow} & #1 & #2 & \\ \hline
 }
 
-\newcommand{\blankentry}[1]{\logentry{#1}{}}
+\newcommand{\blankentry}[1]{\logentry{#1}{-}}
 
 \newcommand{\logbookrows}{%
   \logentry{23/02/2026}{- Mengikuti sesi perkenalan perusahaan JOB Pertamina E\&P Tomori Sulawesi dilanjutkan dengan menonton video profil perusahaan, serta mempelajari materi terkait data security (keamanan data) pada perusahaan yang dipaparkan.}
-  \logentry{24/02/2026}{- Mengerjakan Tugas lengkapin Klasifikasi informasi dokumen digi-sign part 1.}
-  \logentry{25/02/2026}{- Mengerjakan Tugas lengkapin Klasifikasi informasi dokumen digi-sign part 2.}
+  \logentry{24/02/2026}{- Mengerjakan tugas lengkapi klasifikasi informasi dokumen digi-sign part 1.}
+  \logentry{25/02/2026}{- Mengerjakan tugas lengkapi klasifikasi informasi dokumen digi-sign part 2.}
   \blankentry{26/02/2026}
   \blankentry{27/02/2026}
 }
@@ -99,8 +101,8 @@
 %  LOGO HEADER
 % ------------------------------------------------------------
 \begin{flushright}
-	\vspace*{-0.2cm}
-	\includegraphics[width=7.5cm]{logo_header.png}
+  \vspace*{-0.2cm}
+  \includegraphics[width=7.5cm]{logo_header.png}
 \end{flushright}
 
 \vspace{0.1cm}
@@ -109,7 +111,7 @@
 %  TITLE
 % ------------------------------------------------------------
 \begin{center}
-	{\fontsize{14}{17}\selectfont \textbf{DAFTAR HADIR KERJA PRAKTEK / MAGANG}}
+  {\fontsize{14}{17}\selectfont \textbf{DAFTAR HADIR KERJA PRAKTEK / MAGANG}}
 \end{center}
 
 \vspace{0.1cm}
@@ -118,88 +120,81 @@
 %  INFO FIELDS
 % ------------------------------------------------------------
 {\fontsize{10.5}{13}\selectfont
-	\noindent
-	\begin{tabular}{@{}p{2cm}@{}l}
-		\textbf{Nama}    & : \nama    \\[1pt]
-		\textbf{Periode} & : \periode \\[1pt]
-		\textbf{Divisi}  & : \divisi  \\
-	\end{tabular}
+  \noindent
+  \begin{tabular}{@{}p{2cm}@{}l}
+    \textbf{Nama}    & : \nama    \\[1pt]
+    \textbf{Periode} & : \periode \\[1pt]
+    \textbf{Divisi}  & : \divisi  \\
+  \end{tabular}
 }
 
 \vspace{0.15cm}
 
 % ------------------------------------------------------------
 %  ATTENDANCE TABLE
-%
-%  Column proportions from Excel (cols A-G):
-%    No           = A+B  ~5%    (0.8cm)   m  centered H+V
-%    Hari/Tanggal = C    ~19%   (3.8cm)   m  centered H+V
-%    Agenda       = D+E  ~47%   (auto)    p  left, top
-%    Tanda Tangan = F+G  ~30%   split into two sub-columns (3.0cm + 3.0cm)
 % ------------------------------------------------------------
 \resetlogrows
 
-\renewcommand{\arraystretch}{1.05}
+\renewcommand{\arraystretch}{1.02}
 \setlength{\tabcolsep}{3pt}
 \setlength{\LTleft}{0pt}
 \setlength{\LTright}{0pt}
+\setlength{\colAgendaWidth}{%
+  \dimexpr
+  \textwidth-\colNoWidth-\colDateWidth-\colSignWidth
+  -8\tabcolsep-5\arrayrulewidth
+  \relax}
 
 {\fontsize{10.5}{12.5}\selectfont
-	\begin{longtable}{%
-		|>{\centering\arraybackslash}m{0.8cm}%
-		|>{\centering\arraybackslash}m{3.8cm}%
-		|p{\dimexpr\textwidth-12.8cm\relax}%
-		|>{\raggedright\arraybackslash}b{3.0cm}%
-		|>{\raggedright\arraybackslash}b{3.0cm}|}
+  \begin{longtable}{%
+    |C{\colNoWidth}%
+    |C{\colDateWidth}%
+    |L{\colAgendaWidth}%
+    |R{\colSignWidth}|}
 
-		\hline
-		\rowcolor{headerblack}
-		\textcolor{white}{\textbf{No}}               &
-		\textcolor{white}{\textbf{Hari/Tanggal}}     &
-		\centering\textcolor{white}{\textbf{Agenda}} &
-		\multicolumn{2}{c|}{\textcolor{white}{\textbf{Tanda Tangan}}} \\
-		\hline
-		\endfirsthead
+    \hline
+    \rowcolor{headerblack}
+    \multicolumn{1}{|c|}{\textcolor{white}{\textbf{No}}} &
+    \multicolumn{1}{c|}{\textcolor{white}{\textbf{Hari/Tanggal}}} &
+    \multicolumn{1}{c|}{\textcolor{white}{\textbf{Agenda}}} &
+    \multicolumn{1}{c|}{\textcolor{white}{\textbf{Tanda Tangan}}} \\
+    \hline
+    \endfirsthead
 
-		\hline
-		\rowcolor{headerblack}
-		\textcolor{white}{\textbf{No}}               &
-		\textcolor{white}{\textbf{Hari/Tanggal}}     &
-		\centering\textcolor{white}{\textbf{Agenda}} &
-		\multicolumn{2}{c|}{\textcolor{white}{\textbf{Tanda Tangan}}} \\
-		\hline
-		\endhead
+    \hline
+    \rowcolor{headerblack}
+    \multicolumn{1}{|c|}{\textcolor{white}{\textbf{No}}} &
+    \multicolumn{1}{c|}{\textcolor{white}{\textbf{Hari/Tanggal}}} &
+    \multicolumn{1}{c|}{\textcolor{white}{\textbf{Agenda}}} &
+    \multicolumn{1}{c|}{\textcolor{white}{\textbf{Tanda Tangan}}} \\
+    \hline
+    \endhead
 
-		\hline
-		\endfoot
+    \hline
+    \endfoot
 
-		\endlastfoot
+    \endlastfoot
 
-		% --------------------------------------------------------
-		%  DATA ENTRIES
-		%  Edit only \logbookrows in the preamble.
-		%  Add/remove lines using:
-		%    \logentry{Hari/Tanggal}{Agenda}
-		%    \blankentry{Hari/Tanggal}
-		% --------------------------------------------------------
-
-		\logbookrows
-	\end{longtable}
+    % --------------------------------------------------------
+    %  DATA ENTRIES
+    %  Edit only \logbookrows in the preamble.
+    % --------------------------------------------------------
+    \logbookrows
+  \end{longtable}
 }
 
 \vfill
 
 % ------------------------------------------------------------
 %  SIGNATURE BLOCK
-%  Original Excel: labels=italic, names=bold, titles=italic
 % ------------------------------------------------------------
 {\fontsize{10.5}{13}\selectfont
-	\noindent
-	\begin{tabular}{@{}p{0.8cm}@{}p{\dimexpr\textwidth-6.75cm\relax}@{}p{5.95cm}@{}}
-		 & \textit{Approved by,}   & \textit{Acknowledge by,}   \\[2.5cm]
-		 & \textbf{\approvedName}  & \textbf{\acknowledgeName}  \\
-		 & \textit{\approvedTitle} & \textit{\acknowledgeTitle} \\
-	\end{tabular}
+  \noindent
+  \begin{tabular*}{\textwidth}{@{}p{0.47\textwidth}@{\hspace{0.06\textwidth}}p{0.47\textwidth}@{}}
+    \textit{Approved by,}   & \textit{Acknowledge by,}   \\[2.5cm]
+    \textbf{\approvedName}  & \textbf{\acknowledgeName}  \\
+    \textit{\approvedTitle} & \textit{\acknowledgeTitle} \\
+  \end{tabular*}
 }
 
 \end{document}
