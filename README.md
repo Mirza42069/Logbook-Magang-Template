@@ -27,3 +27,5 @@ For best visual match with the original Excel (Calibri), use **XeLaTeX** or **Lu
 ## Preview
 
 You can see the sample [PDF](overleaf/logbook.pdf).
+
+[![Logbook Preview](overleaf/logbook.png)](overleaf/logbook.pdf)
