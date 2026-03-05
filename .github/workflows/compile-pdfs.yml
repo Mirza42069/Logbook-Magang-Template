@@ -23,8 +23,17 @@ jobs:
           root_file: logbook.tex
           latexmk_use_xelatex: true
 
+      - name: Rebuild Overleaf ZIP
+        run: make package
+
       - name: Upload compiled PDF
         uses: actions/upload-artifact@v4
         with:
           name: logbook-pdf
           path: overleaf/logbook.pdf
+
+      - name: Upload Overleaf ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: logbook-overleaf-zip
+          path: Logbook_Template_Overleaf.zip

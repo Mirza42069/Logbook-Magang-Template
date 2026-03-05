@@ -51,5 +51,6 @@ nul
 ### Local agent notes ###
 AGENTS.md
 
-### Local compile output ###
-local/logbook2.pdf
+### Build directories ###
+build/
+local/

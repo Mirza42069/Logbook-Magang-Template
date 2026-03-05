@@ -24,18 +24,11 @@
 
 For best visual match with the original Excel (Calibri), use **XeLaTeX** or **LuaLaTeX**.
 
+## Canonical Source
+
+Edit [overleaf/logbook.tex](overleaf/logbook.tex). This is the only maintained template source.
 
 ## Preview
 
-You can see [PDF](overleaf/logbook.pdf)
+You can see the sample [PDF](overleaf/logbook.pdf).
 
-| Page 1 |
-|:---:|
-| [![Logbook Preview](overleaf/logbook.png)](overleaf/logbook.pdf) |
-
-## Local Compile (`local/logbook2.tex`)
-
-For Windows local builds, use **MiKTeX** + **Strawberry Perl**.
-
-1. Install MiKTeX (TeX distribution)
-2. Install Strawberry Perl (required by `latexmk`)

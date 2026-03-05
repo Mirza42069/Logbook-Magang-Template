@@ -1,21 +1,37 @@
-.PHONY: all local overleaf clean
+.PHONY: check-pdf check-xe sample package clean
 
-CC = xelatex
 OVERLEAF_DIR = overleaf
-LOCAL_DIR = local
-LOCAL_FILE = logbook2
+ROOT_FILE = logbook.tex
+ROOT_BASENAME = logbook
+BUILD_DIR = build
+PDF_BUILD_DIR = $(BUILD_DIR)/pdf
+XE_BUILD_DIR = $(BUILD_DIR)/xe
+SAMPLE_BUILD_DIR = $(BUILD_DIR)/sample
+PACKAGE_FILE = Logbook_Template_Overleaf.zip
+PACKAGE_INPUTS = $(OVERLEAF_DIR)/logbook.tex $(OVERLEAF_DIR)/logo_header.png
+LATEX_FLAGS = -interaction=nonstopmode -halt-on-error
 
-all: local
+check-pdf:
+	mkdir -p $(PDF_BUILD_DIR)
+	cd $(OVERLEAF_DIR) && pdflatex $(LATEX_FLAGS) -output-directory=../$(PDF_BUILD_DIR) $(ROOT_FILE)
+	cd $(OVERLEAF_DIR) && pdflatex $(LATEX_FLAGS) -output-directory=../$(PDF_BUILD_DIR) $(ROOT_FILE)
 
-local: $(LOCAL_DIR)/$(LOCAL_FILE).pdf
+check-xe:
+	mkdir -p $(XE_BUILD_DIR)
+	cd $(OVERLEAF_DIR) && xelatex $(LATEX_FLAGS) -output-directory=../$(XE_BUILD_DIR) $(ROOT_FILE)
+	cd $(OVERLEAF_DIR) && xelatex $(LATEX_FLAGS) -output-directory=../$(XE_BUILD_DIR) $(ROOT_FILE)
 
-$(LOCAL_DIR)/$(LOCAL_FILE).pdf: $(LOCAL_DIR)/$(LOCAL_FILE).tex
-	cd $(LOCAL_DIR) && $(CC) $(LOCAL_FILE).tex && $(CC) $(LOCAL_FILE).tex
+sample:
+	mkdir -p $(SAMPLE_BUILD_DIR)
+	cd $(OVERLEAF_DIR) && pdflatex $(LATEX_FLAGS) -output-directory=../$(SAMPLE_BUILD_DIR) $(ROOT_FILE)
+	cd $(OVERLEAF_DIR) && pdflatex $(LATEX_FLAGS) -output-directory=../$(SAMPLE_BUILD_DIR) $(ROOT_FILE)
+	cp $(SAMPLE_BUILD_DIR)/$(ROOT_BASENAME).pdf $(OVERLEAF_DIR)/$(ROOT_BASENAME).pdf
 
-overleaf: $(OVERLEAF_DIR)/logbook.pdf
-
-$(OVERLEAF_DIR)/logbook.pdf: $(OVERLEAF_DIR)/logbook.tex
-	cd $(OVERLEAF_DIR) && $(CC) logbook.tex && $(CC) logbook.tex
+package: $(PACKAGE_INPUTS)
+	rm -f $(PACKAGE_FILE)
+	cd $(OVERLEAF_DIR) && zip -X -q ../$(PACKAGE_FILE) logbook.tex logo_header.png
 
 clean:
-	rm -f *.aux *.log *.out *.toc *.fls *.fdb_latexmk *.synctex.gz *.bak* && cd $(LOCAL_DIR) && rm -f *.aux *.log *.out *.toc *.fls *.fdb_latexmk *.synctex.gz *.bak* && cd .. && cd $(OVERLEAF_DIR) && rm -f *.aux *.log *.out *.toc *.fls *.fdb_latexmk *.synctex.gz *.bak*
+	rm -rf $(BUILD_DIR)
+	rm -f *.aux *.log *.out *.toc *.fls *.fdb_latexmk *.synctex.gz *.bak* *.xdv *-converted-to.*
+	rm -f $(OVERLEAF_DIR)/*.aux $(OVERLEAF_DIR)/*.log $(OVERLEAF_DIR)/*.out $(OVERLEAF_DIR)/*.toc $(OVERLEAF_DIR)/*.fls $(OVERLEAF_DIR)/*.fdb_latexmk $(OVERLEAF_DIR)/*.synctex.gz $(OVERLEAF_DIR)/*.xdv $(OVERLEAF_DIR)/*-converted-to.*

@@ -1,9 +1,39 @@
 \documentclass[a4paper,10pt]{article}
 
 % ============================================================
+%  LAYOUT CONSTANTS
+% ============================================================
+\newcommand{\pageTopMargin}{0.8cm}
+\newcommand{\pageBottomMargin}{0.8cm}
+\newcommand{\pageLeftMargin}{1.3cm}
+\newcommand{\pageRightMargin}{0.5cm}
+\newcommand{\logoHeaderWidth}{7.5cm}
+\newcommand{\logoHeaderOffset}{-0.2cm}
+\newcommand{\sectionGap}{0.1cm}
+\newcommand{\infoBlockGap}{0.15cm}
+\newcommand{\titleFontSize}{14}
+\newcommand{\titleLineHeight}{17}
+\newcommand{\bodyFontSize}{10.5}
+\newcommand{\bodyLineHeight}{13}
+\newcommand{\tableFontSize}{10.5}
+\newcommand{\tableLineHeight}{12.5}
+\newcommand{\infoLabelWidth}{2cm}
+\newcommand{\tableRowStretch}{1.02}
+\newcommand{\tableColumnSep}{3pt}
+\newcommand{\longtableSideMargin}{0pt}
+\newcommand{\signatureColumnWidth}{0.47\textwidth}
+\newcommand{\signatureGapWidth}{0.06\textwidth}
+\newcommand{\signatureClearance}{2.5cm}
+
+% ============================================================
 %  PACKAGES
 % ============================================================
-\usepackage[top=0.8cm, bottom=0.8cm, left=1.3cm, right=0.5cm]{geometry}
+\usepackage[
+  top=\pageTopMargin,
+  bottom=\pageBottomMargin,
+  left=\pageLeftMargin,
+  right=\pageRightMargin
+]{geometry}
 \usepackage{iftex}
 \ifPDFTeX
 \usepackage[T1]{fontenc}
@@ -56,7 +86,9 @@
 \exhyphenpenalty=10000
 
 % ============================================================
-%  CONFIGURABLE FIELDS  --  Edit these for each month/person
+%  USER-EDITABLE CONTENT
+%  - Update identity/signature fields for each month/person.
+%  - Edit only \logbookrows for attendance data entries.
 % ============================================================
 \newcommand{\nama}{Nama Lengkap}
 \newcommand{\periode}{Bulan Tahun}
@@ -92,6 +124,31 @@
 }
 
 % ============================================================
+%  TABLE LAYOUT HELPERS
+% ============================================================
+\newcommand{\preparelogtable}{%
+  \renewcommand{\arraystretch}{\tableRowStretch}%
+  \setlength{\tabcolsep}{\tableColumnSep}%
+  \setlength{\LTleft}{\longtableSideMargin}%
+  \setlength{\LTright}{\longtableSideMargin}%
+  \setlength{\colAgendaWidth}{%
+    \dimexpr
+    \textwidth-\colNoWidth-\colDateWidth-\colSignWidth
+    -8\tabcolsep-5\arrayrulewidth
+    \relax}%
+}
+
+\newcommand{\logtableheader}{%
+  \hline
+  \rowcolor{headerblack}
+  \multicolumn{1}{|c|}{\textcolor{white}{\textbf{No}}} &
+  \multicolumn{1}{c|}{\textcolor{white}{\textbf{Hari/Tanggal}}} &
+  \multicolumn{1}{c|}{\textcolor{white}{\textbf{Agenda}}} &
+  \multicolumn{1}{c|}{\textcolor{white}{\textbf{Tanda Tangan}}} \\
+  \hline
+}
+
+% ============================================================
 \pagestyle{empty}
 % ============================================================
 
@@ -101,73 +158,53 @@
 %  LOGO HEADER
 % ------------------------------------------------------------
 \begin{flushright}
-  \vspace*{-0.2cm}
-  \includegraphics[width=7.5cm]{logo_header.png}
+  \vspace*{\logoHeaderOffset}
+  \includegraphics[width=\logoHeaderWidth]{logo_header.png}
 \end{flushright}
 
-\vspace{0.1cm}
+\vspace{\sectionGap}
 
 % ------------------------------------------------------------
 %  TITLE
 % ------------------------------------------------------------
 \begin{center}
-  {\fontsize{14}{17}\selectfont \textbf{DAFTAR HADIR KERJA PRAKTEK / MAGANG}}
+  {\fontsize{\titleFontSize}{\titleLineHeight}\selectfont
+    \textbf{DAFTAR HADIR KERJA PRAKTEK / MAGANG}}
 \end{center}
 
-\vspace{0.1cm}
+\vspace{\sectionGap}
 
 % ------------------------------------------------------------
 %  INFO FIELDS
 % ------------------------------------------------------------
-{\fontsize{10.5}{13}\selectfont
+{\fontsize{\bodyFontSize}{\bodyLineHeight}\selectfont
   \noindent
-  \begin{tabular}{@{}p{2cm}@{}l}
+  \begin{tabular}{@{}p{\infoLabelWidth}@{}l}
     \textbf{Nama}    & : \nama    \\[1pt]
     \textbf{Periode} & : \periode \\[1pt]
     \textbf{Divisi}  & : \divisi  \\
   \end{tabular}
 }
 
-\vspace{0.15cm}
+\vspace{\infoBlockGap}
 
 % ------------------------------------------------------------
 %  ATTENDANCE TABLE
 % ------------------------------------------------------------
 \resetlogrows
+\preparelogtable
 
-\renewcommand{\arraystretch}{1.02}
-\setlength{\tabcolsep}{3pt}
-\setlength{\LTleft}{0pt}
-\setlength{\LTright}{0pt}
-\setlength{\colAgendaWidth}{%
-  \dimexpr
-  \textwidth-\colNoWidth-\colDateWidth-\colSignWidth
-  -8\tabcolsep-5\arrayrulewidth
-  \relax}
-
-{\fontsize{10.5}{12.5}\selectfont
+{\fontsize{\tableFontSize}{\tableLineHeight}\selectfont
   \begin{longtable}{%
     |C{\colNoWidth}%
     |C{\colDateWidth}%
     |L{\colAgendaWidth}%
     |R{\colSignWidth}|}
 
-    \hline
-    \rowcolor{headerblack}
-    \multicolumn{1}{|c|}{\textcolor{white}{\textbf{No}}} &
-    \multicolumn{1}{c|}{\textcolor{white}{\textbf{Hari/Tanggal}}} &
-    \multicolumn{1}{c|}{\textcolor{white}{\textbf{Agenda}}} &
-    \multicolumn{1}{c|}{\textcolor{white}{\textbf{Tanda Tangan}}} \\
-    \hline
+    \logtableheader
     \endfirsthead
 
-    \hline
-    \rowcolor{headerblack}
-    \multicolumn{1}{|c|}{\textcolor{white}{\textbf{No}}} &
-    \multicolumn{1}{c|}{\textcolor{white}{\textbf{Hari/Tanggal}}} &
-    \multicolumn{1}{c|}{\textcolor{white}{\textbf{Agenda}}} &
-    \multicolumn{1}{c|}{\textcolor{white}{\textbf{Tanda Tangan}}} \\
-    \hline
+    \logtableheader
     \endhead
 
     \hline
@@ -188,10 +225,10 @@
 % ------------------------------------------------------------
 %  SIGNATURE BLOCK
 % ------------------------------------------------------------
-{\fontsize{10.5}{13}\selectfont
+{\fontsize{\bodyFontSize}{\bodyLineHeight}\selectfont
   \noindent
-  \begin{tabular*}{\textwidth}{@{}p{0.47\textwidth}@{\hspace{0.06\textwidth}}p{0.47\textwidth}@{}}
-    \textit{Approved by,}   & \textit{Acknowledge by,}   \\[2.5cm]
+  \begin{tabular*}{\textwidth}{@{}p{\signatureColumnWidth}@{\hspace{\signatureGapWidth}}p{\signatureColumnWidth}@{}}
+    \textit{Approved by,}   & \textit{Acknowledge by,}   \\[\signatureClearance]
     \textbf{\approvedName}  & \textbf{\acknowledgeName}  \\
     \textit{\approvedTitle} & \textit{\acknowledgeTitle} \\
   \end{tabular*}
